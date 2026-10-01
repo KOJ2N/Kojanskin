@@ -1,7 +1,7 @@
 local windowOpen = false
 
--- Bind a hotkey to open/close the menu (Default: N key)
-local toggleKey = ac.ControlButton("liveSkinSelector/Toggle", { 
+-- Toggle hotkey changed to the 'N' key
+local toggleKey = ac.ControlButton("skinSelector/Toggle", { 
     keyboard = { key = ui.KeyIndex.N } 
 })
 
@@ -14,35 +14,26 @@ end
 function script.windowMain(dt)
     if not windowOpen then return end
 
-    -- Draw the popup window on screen
-    ui.toolWindow("Live Skin Selector", vec2(300, 200), vec2(350, 300), false, true, function()
-        ui.text("Select Car Skin Mid-Race")
-        ui.textColored("Press N to toggle this window", rgbm.colors.gray)
+    -- Creates a movable, clean popup window anywhere on screen mid-race
+    ui.toolWindow("Server Skin Selector", vec2(300, 250), vec2(400, 350), false, true, function()
+        ui.text("Choose a Skin Mid-Race:")
+        ui.textColored("Press N to open/close", rgbm.colors.gray)
         ui.separator()
         ui.spacing()
 
-        ui.text("Available Liveries:")
-
-        -- Button 1: Triggers skin change action via chat command / server handler
-        if ui.button("Skin Variant: Red", vec2(-1, 0)) then
-            ac.sendChatMessage("!skin red")  -- Triggers your server-side plugin/bot
-            ui.toast(ui.ToastType.Success, "Switching to Red skin...")
+        -- Skin buttons
+        if ui.button("Apply Skin: Red", vec2(-1, 0)) then
+            ac.sendChatMessage("!skin red")
+            ui.toast(ui.ToastType.Success, "Requested Red Skin")
         end
 
-        -- Button 2
-        if ui.button("Skin Variant: Blue", vec2(-1, 0)) then
+        if ui.button("Apply Skin: Blue", vec2(-1, 0)) then
             ac.sendChatMessage("!skin blue")
-            ui.toast(ui.ToastType.Success, "Switching to Blue skin...")
-        end
-
-        -- Button 3
-        if ui.button("Skin Variant: Carbon", vec2(-1, 0)) then
-            ac.sendChatMessage("!skin carbon")
-            ui.toast(ui.ToastType.Success, "Switching to Carbon skin...")
+            ui.toast(ui.ToastType.Success, "Requested Blue Skin")
         end
 
         ui.separator()
-        if ui.button("Close", vec2(-1, 0)) then
+        if ui.button("Close Menu", vec2(-1, 0)) then
             windowOpen = false
         end
     end)
